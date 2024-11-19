@@ -31,6 +31,7 @@ func OK(w http.ResponseWriter) {
 //
 // TODO(s.chzhen):  Remove it.
 func Error(r *http.Request, w http.ResponseWriter, code int, format string, args ...any) {
+	fmt.Println("[->] internal/aghhttp/aghhttp.go: Error()")
 	text := fmt.Sprintf(format, args...)
 	log.Error("%s %s %s: %s", r.Method, r.Host, r.URL, text)
 	http.Error(w, text, code)
@@ -76,6 +77,7 @@ const textPlainDeprMsg = `using this api with the text/plain content-type is dep
 // deprecation and removal of a plain-text API if the request is made with the
 // "text/plain" content-type.
 func WriteTextPlainDeprecated(w http.ResponseWriter, r *http.Request) (isPlainText bool) {
+	fmt.Println("[->] internal/aghhttp/aghhttp.go: WriteTextPlainDeprecated()")
 	if r.Header.Get(httphdr.ContentType) != HdrValTextPlain {
 		return false
 	}

@@ -3,6 +3,7 @@
 package dhcpd
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/andrzejlapinski/AdGuardHome/internal/aghhttp"
@@ -24,6 +25,7 @@ type jsonError struct {
 // TODO(a.garipov): Either take the logger from the server after we've
 // refactored logging or make this not a method of *Server.
 func (s *server) notImplemented(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_windows.go: notImplemented()")
 	aghhttp.WriteJSONResponse(w, r, http.StatusNotImplemented, &jsonError{
 		Message: aghos.Unsupported("dhcp").Error(),
 	})
@@ -37,6 +39,7 @@ func (s *server) notImplemented(w http.ResponseWriter, r *http.Request) {
 // interconnected parts--such as HTTP handlers and frontend--to make that work
 // properly.
 func (s *server) registerHandlers() {
+	fmt.Println("[->] internal/dhcpd/http_windows.go: registerHandlers()")
 	s.conf.HTTPRegister(http.MethodGet, "/control/dhcp/status", s.notImplemented)
 	s.conf.HTTPRegister(http.MethodGet, "/control/dhcp/interfaces", s.notImplemented)
 	s.conf.HTTPRegister(http.MethodPost, "/control/dhcp/set_config", s.notImplemented)

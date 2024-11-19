@@ -38,6 +38,7 @@ type leaseJSON struct {
 
 // readOldDB reads the old database from the given path.
 func readOldDB(path string) (leases []*leaseJSON, err error) {
+	fmt.Println("[->] internal/dhcpd/migrate.go: readOldDB()")
 	// #nosec G304 -- Trust this path, since it's taken from the old file name
 	// relative to the working directory and should generally be considered
 	// safe.
@@ -62,6 +63,7 @@ func readOldDB(path string) (leases []*leaseJSON, err error) {
 
 // migrateDB migrates stored leases if necessary.
 func migrateDB(conf *ServerConfig) (err error) {
+	fmt.Println("[->] internal/dhcpd/migrate.go: migrateDB()")
 	defer func() { err = errors.Annotate(err, "migrating db: %w") }()
 
 	oldLeasesPath := filepath.Join(conf.WorkDir, dbFilename)
@@ -107,6 +109,7 @@ func migrateDB(conf *ServerConfig) (err error) {
 // normalizeIP converts the given IP address to IPv4 if it's IPv4-mapped IPv6,
 // or leaves it as is otherwise.
 func normalizeIP(ip net.IP) (normalized net.IP) {
+	fmt.Println("[->] internal/dhcpd/migrate.go: normalizeIP()")
 	normalized = ip.To4()
 	if normalized != nil {
 		return normalized

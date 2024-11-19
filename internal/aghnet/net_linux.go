@@ -105,6 +105,7 @@ func (n interfaceName) ifacesStaticConfig(r io.Reader) (sub []string, cont bool,
 }
 
 func ifaceHasStaticIP(ifaceName string) (has bool, err error) {
+	fmt.Println("[->] internal/aghnet/net_linux.go: ifaceHasStaticIP()")
 	// TODO(a.garipov): Currently, this function returns the first definitive
 	// result.  So if /etc/dhcpcd.conf has and /etc/network/interfaces has no
 	// static IP configuration, it will return true.  Perhaps this is not the
@@ -150,6 +151,7 @@ func findIfaceLine(s *bufio.Scanner, name string) (ok bool) {
 // ifaceSetStaticIP configures the system to retain its current IP on the
 // interface through dhcpcd.conf.
 func ifaceSetStaticIP(ifaceName string) (err error) {
+	fmt.Println("[->] internal/aghnet/net_linux.go: ifaceSetStaticIP()")
 	ipNet := GetSubnet(ifaceName)
 	if !ipNet.Addr().IsValid() {
 		return errors.Error("can't get IP address")

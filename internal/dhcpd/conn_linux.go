@@ -50,6 +50,7 @@ type dhcpConn struct {
 
 // newDHCPConn creates the special connection for DHCP server.
 func (s *v4Server) newDHCPConn(iface *net.Interface) (c net.PacketConn, err error) {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: newDHCPConn()")
 	var ucast net.PacketConn
 	if ucast, err = packet.Listen(iface, packet.Raw, int(ethernet.EtherTypeIPv4), nil); err != nil {
 		return nil, fmt.Errorf("creating raw udp connection: %w", err)
@@ -82,6 +83,7 @@ func (s *v4Server) newDHCPConn(iface *net.Interface) (c net.PacketConn, err erro
 // WriteTo implements net.PacketConn for *dhcpConn.  It selects the underlying
 // connection to write to based on the type of addr.
 func (c *dhcpConn) WriteTo(p []byte, addr net.Addr) (n int, err error) {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: WriteTo()")
 	switch addr := addr.(type) {
 	case *dhcpUnicastAddr:
 		// Unicast the message to the client's MAC address.  Use the raw
@@ -118,11 +120,13 @@ func (c *dhcpConn) WriteTo(p []byte, addr net.Addr) (n int, err error) {
 
 // ReadFrom implements net.PacketConn for *dhcpConn.
 func (c *dhcpConn) ReadFrom(p []byte) (n int, addr net.Addr, err error) {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: ReadFrom()")
 	return c.udpConn.ReadFrom(p)
 }
 
 // unicast wraps respData with required frames and writes it to the peer.
 func (c *dhcpConn) unicast(respData []byte, peer *dhcpUnicastAddr) (n int, err error) {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: unicast()")
 	var data []byte
 	data, err = c.buildEtherPkt(respData, peer)
 	if err != nil {
@@ -134,6 +138,7 @@ func (c *dhcpConn) unicast(respData []byte, peer *dhcpUnicastAddr) (n int, err e
 
 // Close implements net.PacketConn for *dhcpConn.
 func (c *dhcpConn) Close() (err error) {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: Close()")
 	rerr := c.rawConn.Close()
 	if errors.Is(rerr, os.ErrClosed) {
 		// Ignore the error since the actual file is closed already.
@@ -145,16 +150,19 @@ func (c *dhcpConn) Close() (err error) {
 
 // LocalAddr implements net.PacketConn for *dhcpConn.
 func (c *dhcpConn) LocalAddr() (a net.Addr) {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: LocalAddr()")
 	return c.udpConn.LocalAddr()
 }
 
 // SetDeadline implements net.PacketConn for *dhcpConn.
 func (c *dhcpConn) SetDeadline(t time.Time) (err error) {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: SetDeadline()")
 	return wrapErrs("setting deadline on", c.udpConn.SetDeadline(t), c.rawConn.SetDeadline(t))
 }
 
 // SetReadDeadline implements net.PacketConn for *dhcpConn.
 func (c *dhcpConn) SetReadDeadline(t time.Time) error {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: SetReadDeadline()")
 	return wrapErrs(
 		"setting reading deadline on",
 		c.udpConn.SetReadDeadline(t),
@@ -164,6 +172,7 @@ func (c *dhcpConn) SetReadDeadline(t time.Time) error {
 
 // SetWriteDeadline implements net.PacketConn for *dhcpConn.
 func (c *dhcpConn) SetWriteDeadline(t time.Time) error {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: SetWriteDeadline()")
 	return wrapErrs(
 		"setting writing deadline on",
 		c.udpConn.SetWriteDeadline(t),
@@ -180,6 +189,7 @@ const ipv4DefaultTTL = 64
 // buildEtherPkt wraps the payload with IPv4, UDP and Ethernet frames.
 // Validation of the payload is a caller's responsibility.
 func (c *dhcpConn) buildEtherPkt(payload []byte, peer *dhcpUnicastAddr) (pkt []byte, err error) {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: buildEtherPkt()")
 	udpLayer := &layers.UDP{
 		SrcPort: dhcpv4.ServerPort,
 		DstPort: dhcpv4.ClientPort,
@@ -230,6 +240,7 @@ func (c *dhcpConn) buildEtherPkt(payload []byte, peer *dhcpUnicastAddr) (pkt []b
 //
 // See https://datatracker.ietf.org/doc/html/rfc2131#section-4.1.
 func (s *v4Server) send(peer net.Addr, conn net.PacketConn, req, resp *dhcpv4.DHCPv4) {
+	fmt.Println("[->] internal/dhcpd/conn_linux.go: send()")
 	switch giaddr, ciaddr, mtype := req.GatewayIPAddr, req.ClientIPAddr, resp.MessageType(); {
 	case giaddr != nil && !giaddr.IsUnspecified():
 		// Send any return messages to the server port on the BOOTP relay agent

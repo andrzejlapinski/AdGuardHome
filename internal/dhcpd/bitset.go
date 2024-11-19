@@ -1,5 +1,7 @@
 package dhcpd
 
+import "fmt"
+
 const bitsPerWord = 64
 
 // bitSet is a sparse bitSet.  A nil *bitSet is an empty bitSet.
@@ -9,6 +11,7 @@ type bitSet struct {
 
 // newBitSet returns a new bitset.
 func newBitSet() (s *bitSet) {
+	fmt.Println("[->]internal/dhcpd/bitset.go: newBitSet()")
 	return &bitSet{
 		words: map[uint64]uint64{},
 	}
@@ -16,6 +19,7 @@ func newBitSet() (s *bitSet) {
 
 // isSet returns true if the bit n is set.
 func (s *bitSet) isSet(n uint64) (ok bool) {
+	fmt.Println("[->]internal/dhcpd/bitset.go: isSet()")
 	if s == nil {
 		return false
 	}
@@ -31,6 +35,7 @@ func (s *bitSet) isSet(n uint64) (ok bool) {
 
 // set sets or unsets a bit.
 func (s *bitSet) set(n uint64, ok bool) {
+	fmt.Println("[->]internal/dhcpd/bitset.go: set()")
 	if s == nil {
 		return
 	}

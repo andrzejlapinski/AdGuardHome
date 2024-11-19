@@ -43,6 +43,7 @@ type icmpv6RA struct {
 //
 // See https://tools.ietf.org/html/rfc4861#section-4.6.1.
 func hwAddrToLinkLayerAddr(hwa net.HardwareAddr) (lla []byte, err error) {
+	fmt.Println("[->] internal/dhcpd/routeradv.go: hwAddrToLinkLayerAddr")
 	err = netutil.ValidateMAC(hwa)
 	if err != nil {
 		// Don't wrap the error, because it already contains enough
@@ -103,6 +104,7 @@ func hwAddrToLinkLayerAddr(hwa net.HardwareAddr) (lla []byte, err error) {
 //
 // TODO(a.garipov): Replace with an existing implementation from a dependency.
 func createICMPv6RAPacket(params icmpv6RA) (data []byte, err error) {
+	fmt.Println("[->] internal/dhcpd/routeradv.go: createICMPv6RAPacket")
 	var lla []byte
 	lla, err = hwAddrToLinkLayerAddr(params.sourceLinkLayerAddress)
 	if err != nil {
@@ -198,6 +200,7 @@ func createICMPv6RAPacket(params icmpv6RA) (data []byte, err error) {
 
 // Init initializes RA module.
 func (ra *raCtx) Init() (err error) {
+	fmt.Println("[->] internal/dhcpd/routeradv.go: raCtx.Init")
 	ra.stop.Store(0)
 	ra.conn = nil
 	if !ra.raAllowSLAAC && !ra.raSLAACOnly {
@@ -271,6 +274,7 @@ func (ra *raCtx) Init() (err error) {
 
 // Close closes the module.
 func (ra *raCtx) Close() (err error) {
+	fmt.Println("[->] internal/dhcpd/routeradv.go: raCtx.Close")
 	log.Debug("dhcpv6 ra: closing")
 
 	ra.stop.Store(1)

@@ -14,7 +14,8 @@ import (
 
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/log"
-	"github.com/andrzejlapinski/AdGuardHome/internal/aghos"
+
+	// "github.com/andrzejlapinski/AdGuardHome/internal/aghos"
 	"github.com/andrzejlapinski/AdGuardHome/internal/dhcpsvc"
 	"github.com/google/renameio/v2/maybe"
 )
@@ -47,6 +48,7 @@ type dbLease struct {
 
 // fromLease converts *dhcpsvc.Lease to *dbLease.
 func fromLease(l *dhcpsvc.Lease) (dl *dbLease) {
+	fmt.Println("[->] internal/dhcpd/db.go: fromLease()")
 	var expiryStr string
 	if !l.IsStatic {
 		// The front-end is waiting for RFC 3999 format of the time value.  It
@@ -67,6 +69,7 @@ func fromLease(l *dhcpsvc.Lease) (dl *dbLease) {
 
 // toLease converts *dbLease to *dhcpsvc.Lease.
 func (dl *dbLease) toLease() (l *dhcpsvc.Lease, err error) {
+	fmt.Println("[->] internal/dhcpd/db.go: toLease()")
 	mac, err := net.ParseMAC(dl.HWAddr)
 	if err != nil {
 		return nil, fmt.Errorf("parsing hardware address: %w", err)
@@ -91,6 +94,7 @@ func (dl *dbLease) toLease() (l *dhcpsvc.Lease, err error) {
 
 // dbLoad loads stored leases.
 func (s *server) dbLoad() (err error) {
+	fmt.Println("[->] internal/dhcpd/db.go: dbLoad()")
 	data, err := os.ReadFile(s.conf.dbFilePath)
 	if err != nil {
 		if !errors.Is(err, os.ErrNotExist) {
@@ -150,6 +154,7 @@ func (s *server) dbLoad() (err error) {
 
 // dbStore stores DHCP leases.
 func (s *server) dbStore() (err error) {
+	fmt.Println("[->] internal/dhcpd/db.go: dbStore()")
 	// Use an empty slice here as opposed to nil so that it doesn't write
 	// "null" into the database file if leases are empty.
 	leases := []*dbLease{}
@@ -169,6 +174,7 @@ func (s *server) dbStore() (err error) {
 
 // writeDB writes leases to file at path.
 func writeDB(path string, leases []*dbLease) (err error) {
+	fmt.Println("[->] internal/dhcpd/db.go: writeDB()")
 	defer func() { err = errors.Annotate(err, "writing db: %w") }()
 
 	slices.SortFunc(leases, func(a, b *dbLease) (res int) {
@@ -186,7 +192,7 @@ func writeDB(path string, leases []*dbLease) (err error) {
 		return err
 	}
 
-	err = maybe.WriteFile(path, buf, aghos.DefaultPermFile)
+	err = maybe.WriteFile(path, buf, 0o600)
 	if err != nil {
 		// Don't wrap the error since it's informative enough as is.
 		return err

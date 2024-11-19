@@ -141,6 +141,7 @@ const errNilConfig errors.Error = "nil config"
 // ensureV4 returns an unmapped version of ip.  An error is returned if the
 // passed ip is not an IPv4.
 func ensureV4(ip netip.Addr, kind string) (ip4 netip.Addr, err error) {
+	fmt.Println("[->] internal/dhcpd/config.go: ensureV4(ip netip.Addr, kind string) (ip4 netip.Addr, err error) { ... }")
 	ip4 = ip.Unmap()
 	if !ip4.IsValid() || !ip4.Is4() {
 		return netip.Addr{}, fmt.Errorf("%v is not an IPv4 %s", ip, kind)
@@ -154,6 +155,7 @@ func ensureV4(ip netip.Addr, kind string) (ip4 netip.Addr, err error) {
 // TODO(e.burkov):  Don't set the config fields when the server itself will stop
 // containing the config.
 func (c *V4ServerConf) Validate() (err error) {
+	fmt.Println("[->] internal/dhcpd/config.go: (c *V4ServerConf) Validate() (err error) { ... }")
 	defer func() { err = errors.Annotate(err, "dhcpv4: %w") }()
 
 	if c == nil {

@@ -24,6 +24,7 @@ import (
 const defaultDiscoverTime = 3 * time.Second
 
 func checkOtherDHCP(ifaceName string) (ok4, ok6 bool, err4, err6 error) {
+	fmt.Println("[->] internal/aghnet/dhcp_unix.go: checkOtherDHCP()")
 	iface, err := net.InterfaceByName(ifaceName)
 	if err != nil {
 		err = fmt.Errorf("couldn't find interface by name %s: %w", ifaceName, err)

@@ -34,6 +34,7 @@ const (
 
 // parseDHCPOptionHex parses a DHCP option as a hex-encoded string.
 func parseDHCPOptionHex(s string) (val dhcpv4.OptionValue, err error) {
+	fmt.Println("[->] internal/dhcpd/options_unix.go: parseDHCPOptionHex()")
 	var data []byte
 	data, err = hex.DecodeString(s)
 	if err != nil {
@@ -45,6 +46,7 @@ func parseDHCPOptionHex(s string) (val dhcpv4.OptionValue, err error) {
 
 // parseDHCPOptionIP parses a DHCP option as a single IP address.
 func parseDHCPOptionIP(s string) (val dhcpv4.OptionValue, err error) {
+	fmt.Println("[->] internal/dhcpd/options_unix.go: parseDHCPOptionIP()")
 	var ip net.IP
 	// All DHCPv4 options require IPv4, so don't put the 16-byte version.
 	// Otherwise, the clients will receive weird data that looks like four IPv4
@@ -61,6 +63,7 @@ func parseDHCPOptionIP(s string) (val dhcpv4.OptionValue, err error) {
 // parseDHCPOptionIPs parses a DHCP option as a comma-separates list of IP
 // addresses.
 func parseDHCPOptionIPs(s string) (val dhcpv4.OptionValue, err error) {
+	fmt.Println("[->] internal/dhcpd/options_unix.go: parseDHCPOptionIPs()")
 	var ips dhcpv4.IPs
 	var ip dhcpv4.OptionValue
 	for i, ipStr := range strings.Split(s, ",") {
@@ -78,6 +81,7 @@ func parseDHCPOptionIPs(s string) (val dhcpv4.OptionValue, err error) {
 // parseDHCPOptionDur parses a DHCP option as a duration in a human-readable
 // form.
 func parseDHCPOptionDur(s string) (val dhcpv4.OptionValue, err error) {
+	fmt.Println("[->] internal/dhcpd/options_unix.go: parseDHCPOptionDur()")
 	var v timeutil.Duration
 	err = v.UnmarshalText([]byte(s))
 	if err != nil {
@@ -90,6 +94,7 @@ func parseDHCPOptionDur(s string) (val dhcpv4.OptionValue, err error) {
 // parseDHCPOptionUint parses a DHCP option as an unsigned integer.  bitSize is
 // expected to be 8 or 16.
 func parseDHCPOptionUint(s string, bitSize int) (val dhcpv4.OptionValue, err error) {
+	fmt.Println("[->] internal/dhcpd/options_unix.go: parseDHCPOptionUint()")
 	var v uint64
 	v, err = strconv.ParseUint(s, 10, bitSize)
 	if err != nil {
@@ -109,6 +114,7 @@ func parseDHCPOptionUint(s string, bitSize int) (val dhcpv4.OptionValue, err err
 // parseDHCPOptionBool parses a DHCP option as a boolean value.  See
 // [strconv.ParseBool] for available values.
 func parseDHCPOptionBool(s string) (val dhcpv4.OptionValue, err error) {
+	fmt.Println("[->] internal/dhcpd/options_unix.go: parseDHCPOptionBool()")
 	var v bool
 	v, err = strconv.ParseBool(s)
 	if err != nil {
@@ -125,6 +131,7 @@ func parseDHCPOptionBool(s string) (val dhcpv4.OptionValue, err error) {
 
 // parseDHCPOptionVal parses a DHCP option value considering typ.
 func parseDHCPOptionVal(typ, valStr string) (val dhcpv4.OptionValue, err error) {
+	fmt.Println("[->] internal/dhcpd/options_unix.go: parseDHCPOptionVal()")
 	switch typ {
 	case typBool:
 		val, err = parseDHCPOptionBool(valStr)
@@ -164,6 +171,7 @@ func parseDHCPOptionVal(typ, valStr string) (val dhcpv4.OptionValue, err error) 
 //   - 8  u8   255
 //   - 9  u16  65535
 func parseDHCPOption(s string) (code dhcpv4.OptionCode, val dhcpv4.OptionValue, err error) {
+	fmt.Println("[->] internal/dhcpd/options_unix.go: parseDHCPOption()")
 	defer func() { err = errors.Annotate(err, "invalid option string %q: %w", s) }()
 
 	s = strings.TrimSpace(s)
@@ -197,6 +205,7 @@ func parseDHCPOption(s string) (code dhcpv4.OptionCode, val dhcpv4.OptionValue, 
 // prepareOptions builds the set of DHCP options according to host requirements
 // document and values from conf.
 func (s *v4Server) prepareOptions() {
+	fmt.Println("[->] internal/dhcpd/options_unix.go: prepareOptions()")
 	// Set default values of host configuration parameters listed in Appendix A
 	// of RFC-2131.
 	s.implicitOpts = dhcpv4.OptionsFromList(

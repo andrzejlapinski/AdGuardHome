@@ -90,6 +90,7 @@ func (t *JSONTime) UnmarshalJSON(b []byte) (err error) {
 // any errors it encounters.  r is used to get additional information from the
 // request.
 func WriteJSONResponse(w http.ResponseWriter, r *http.Request, code int, resp any) {
+	fmt.Println("[->] internal/aghhttp/json.go: WriteJSONResponse()")
 	h := w.Header()
 	h.Set(httphdr.ContentType, HdrValApplicationJSON)
 	h.Set(httphdr.Server, UserAgent())
@@ -106,6 +107,7 @@ func WriteJSONResponse(w http.ResponseWriter, r *http.Request, code int, resp an
 // and logs any errors it encounters.  r is used to get additional information
 // from the request.
 func WriteJSONResponseOK(w http.ResponseWriter, r *http.Request, v any) {
+	fmt.Println("[->] internal/aghhttp/json.go: WriteJSONResponseOK()")
 	WriteJSONResponse(w, r, http.StatusOK, v)
 }
 

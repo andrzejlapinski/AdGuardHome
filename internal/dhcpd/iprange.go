@@ -30,6 +30,7 @@ const maxRangeLen = math.MaxUint32
 // newIPRange creates a new IP address range.  start must be less than end.  The
 // resulting range must not be greater than maxRangeLen.
 func newIPRange(start, end net.IP) (r *ipRange, err error) {
+	fmt.Println("[->] internal/dhcpd/iprange.go: newIPRange()")
 	defer func() { err = errors.Annotate(err, "invalid ip range: %w") }()
 
 	// Make sure that both are 16 bytes long to simplify handling in
@@ -56,6 +57,7 @@ func newIPRange(start, end net.IP) (r *ipRange, err error) {
 
 // contains returns true if r contains ip.
 func (r *ipRange) contains(ip net.IP) (ok bool) {
+	fmt.Println("[->] internal/dhcpd/iprange.go: contains()")
 	if r == nil {
 		return false
 	}
@@ -67,6 +69,7 @@ func (r *ipRange) contains(ip net.IP) (ok bool) {
 
 // containsInt returns true if r contains ipInt.  For internal use only.
 func (r *ipRange) containsInt(ipInt *big.Int) (ok bool) {
+	fmt.Println("[->] internal/dhcpd/iprange.go: containsInt()")
 	return ipInt.Cmp(r.start) >= 0 && ipInt.Cmp(r.end) <= 0
 }
 
@@ -77,6 +80,7 @@ type ipPredicate func(ip net.IP) (ok bool)
 // find finds the first IP address in r for which p returns true.  ip is in the
 // 16-byte form.
 func (r *ipRange) find(p ipPredicate) (ip net.IP) {
+	fmt.Println("[->] internal/dhcpd/iprange.go: find()")
 	if r == nil {
 		return nil
 	}
@@ -96,6 +100,7 @@ func (r *ipRange) find(p ipPredicate) (ip net.IP) {
 // offset returns the offset of ip from the beginning of r.  It returns 0 and
 // false if ip is not in r.
 func (r *ipRange) offset(ip net.IP) (offset uint64, ok bool) {
+	fmt.Println("[->] internal/dhcpd/iprange.go: offset()")
 	if r == nil {
 		return 0, false
 	}
@@ -115,5 +120,6 @@ func (r *ipRange) offset(ip net.IP) (offset uint64, ok bool) {
 
 // String implements the fmt.Stringer interface for *ipRange.
 func (r *ipRange) String() (s string) {
+	fmt.Println("[->] internal/dhcpd/iprange.go: String()")
 	return fmt.Sprintf("%s-%s", r.start, r.end)
 }

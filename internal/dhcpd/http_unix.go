@@ -50,6 +50,7 @@ type v6ServerConfJSON struct {
 }
 
 func v6JSONToServerConf(j *v6ServerConfJSON) V6ServerConf {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: v6JSONToServerConf()")
 	if j == nil {
 		return V6ServerConf{}
 	}
@@ -79,6 +80,7 @@ type leaseStatic struct {
 
 // leasesToStatic converts list of leases to their JSON form.
 func leasesToStatic(leases []*dhcpsvc.Lease) (static []*leaseStatic) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: leasesToStatic()")
 	static = make([]*leaseStatic, len(leases))
 
 	for i, l := range leases {
@@ -94,6 +96,7 @@ func leasesToStatic(leases []*dhcpsvc.Lease) (static []*leaseStatic) {
 
 // toLease converts leaseStatic to Lease or returns error.
 func (l *leaseStatic) toLease() (lease *dhcpsvc.Lease, err error) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: toLease()")
 	addr, err := net.ParseMAC(l.HWAddr)
 	if err != nil {
 		return nil, fmt.Errorf("couldn't parse MAC address: %w", err)
@@ -117,6 +120,7 @@ type leaseDynamic struct {
 
 // leasesToDynamic converts list of leases to their JSON form.
 func leasesToDynamic(leases []*dhcpsvc.Lease) (dynamic []*leaseDynamic) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: leasesToDynamic()")
 	dynamic = make([]*leaseDynamic, len(leases))
 
 	for i, l := range leases {
@@ -136,6 +140,7 @@ func leasesToDynamic(leases []*dhcpsvc.Lease) (dynamic []*leaseDynamic) {
 }
 
 func (s *server) handleDHCPStatus(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleDHCPStatus()")
 	status := &dhcpStatusResponse{
 		Enabled:   s.conf.Enabled,
 		IfaceName: s.conf.InterfaceName,
@@ -172,6 +177,7 @@ func (s *server) handleDHCPStatus(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) enableDHCP(ifaceName string) (code int, err error) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: enableDHCP()")
 	var hasStaticIP bool
 	hasStaticIP, err = aghnet.IfaceHasStaticIP(ifaceName)
 	if err != nil {
@@ -225,9 +231,8 @@ type dhcpServerConfigJSON struct {
 	Enabled       aghalg.NullBool   `json:"enabled"`
 }
 
-func (s *server) handleDHCPSetConfigV4(
-	conf *dhcpServerConfigJSON,
-) (srv DHCPServer, enabled bool, err error) {
+func (s *server) handleDHCPSetConfigV4(conf *dhcpServerConfigJSON) (srv DHCPServer, enabled bool, err error) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleDHCPSetConfigV4()")
 	if conf.V4 == nil {
 		return nil, false, nil
 	}
@@ -257,9 +262,8 @@ func (s *server) handleDHCPSetConfigV4(
 	return srv4, srv4.enabled(), err
 }
 
-func (s *server) handleDHCPSetConfigV6(
-	conf *dhcpServerConfigJSON,
-) (srv6 DHCPServer, enabled bool, err error) {
+func (s *server) handleDHCPSetConfigV6(conf *dhcpServerConfigJSON) (srv6 DHCPServer, enabled bool, err error) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleDHCPSetConfigV6()")
 	if conf.V6 == nil {
 		return nil, false, nil
 	}
@@ -289,6 +293,7 @@ func (s *server) handleDHCPSetConfigV6(
 // createServers returns DHCPv4 and DHCPv6 servers created from the provided
 // configuration conf.
 func (s *server) createServers(conf *dhcpServerConfigJSON) (srv4, srv6 DHCPServer, err error) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: createServers()")
 	srv4, v4Enabled, err := s.handleDHCPSetConfigV4(conf)
 	if err != nil {
 		return nil, nil, fmt.Errorf("bad dhcpv4 configuration: %w", err)
@@ -309,6 +314,7 @@ func (s *server) createServers(conf *dhcpServerConfigJSON) (srv4, srv6 DHCPServe
 // handleDHCPSetConfig is the handler for the POST /control/dhcp/set_config
 // HTTP API.
 func (s *server) handleDHCPSetConfig(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleDHCPSetConfig()")
 	conf := &dhcpServerConfigJSON{}
 	conf.Enabled = aghalg.BoolToNullBool(s.conf.Enabled)
 	conf.InterfaceName = s.conf.InterfaceName
@@ -356,6 +362,7 @@ func (s *server) handleDHCPSetConfig(w http.ResponseWriter, r *http.Request) {
 // setConfFromJSON sets configuration parameters in s from the new configuration
 // decoded from JSON.
 func (s *server) setConfFromJSON(conf *dhcpServerConfigJSON, srv4, srv6 DHCPServer) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: setConfFromJSON()")
 	if conf.Enabled != aghalg.NBNull {
 		s.conf.Enabled = conf.Enabled == aghalg.NBTrue
 	}
@@ -385,6 +392,7 @@ type netInterfaceJSON struct {
 // handleDHCPInterfaces is the handler for the GET /control/dhcp/interfaces
 // HTTP API.
 func (s *server) handleDHCPInterfaces(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleDHCPInterfaces()")
 	resp := map[string]*netInterfaceJSON{}
 
 	ifaces, err := net.Interfaces()
@@ -422,6 +430,7 @@ func (s *server) handleDHCPInterfaces(w http.ResponseWriter, r *http.Request) {
 
 // newNetInterfaceJSON creates a JSON object from a [net.Interface] iface.
 func newNetInterfaceJSON(iface net.Interface) (out *netInterfaceJSON, err error) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: newNetInterfaceJSON()")
 	addrs, err := iface.Addrs()
 	if err != nil {
 		return nil, fmt.Errorf(
@@ -523,6 +532,7 @@ type findActiveServerReq struct {
 //  2. check if a static IP is configured for the network interface;
 //  3. responds with the results.
 func (s *server) handleDHCPFindActiveServer(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleDHCPFindActiveServer()")
 	if aghhttp.WriteTextPlainDeprecated(w, r) {
 		return
 	}
@@ -575,6 +585,7 @@ func (s *server) handleDHCPFindActiveServer(w http.ResponseWriter, r *http.Reque
 // setOtherDHCPResult sets the results of the check for another DHCP server in
 // result.
 func setOtherDHCPResult(ifaceName string, result *dhcpSearchResult) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: setOtherDHCPResult()")
 	found4, found6, err4, err6 := aghnet.CheckOtherDHCP(ifaceName)
 	if err4 != nil {
 		result.V4.OtherServer.Found = "error"
@@ -594,6 +605,7 @@ func setOtherDHCPResult(ifaceName string, result *dhcpSearchResult) {
 // parseLease parses a lease from r.  If there is no error returns DHCPServer
 // and *Lease.  r must be non-nil.
 func (s *server) parseLease(r io.Reader) (srv DHCPServer, lease *dhcpsvc.Lease, err error) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: parseLease()")
 	l := &leaseStatic{}
 	err = json.NewDecoder(r).Decode(l)
 	if err != nil {
@@ -623,6 +635,7 @@ func (s *server) parseLease(r io.Reader) (srv DHCPServer, lease *dhcpsvc.Lease, 
 // handleDHCPAddStaticLease is the handler for the POST
 // /control/dhcp/add_static_lease HTTP API.
 func (s *server) handleDHCPAddStaticLease(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleDHCPAddStaticLease()")
 	srv, lease, err := s.parseLease(r.Body)
 	if err != nil {
 		aghhttp.Error(r, w, http.StatusBadRequest, "%s", err)
@@ -638,6 +651,7 @@ func (s *server) handleDHCPAddStaticLease(w http.ResponseWriter, r *http.Request
 // handleDHCPRemoveStaticLease is the handler for the POST
 // /control/dhcp/remove_static_lease HTTP API.
 func (s *server) handleDHCPRemoveStaticLease(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleDHCPRemoveStaticLease()")
 	srv, lease, err := s.parseLease(r.Body)
 	if err != nil {
 		aghhttp.Error(r, w, http.StatusBadRequest, "%s", err)
@@ -653,6 +667,7 @@ func (s *server) handleDHCPRemoveStaticLease(w http.ResponseWriter, r *http.Requ
 // handleDHCPUpdateStaticLease is the handler for the POST
 // /control/dhcp/update_static_lease HTTP API.
 func (s *server) handleDHCPUpdateStaticLease(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleDHCPUpdateStaticLease()")
 	srv, lease, err := s.parseLease(r.Body)
 	if err != nil {
 		aghhttp.Error(r, w, http.StatusBadRequest, "%s", err)
@@ -666,6 +681,7 @@ func (s *server) handleDHCPUpdateStaticLease(w http.ResponseWriter, r *http.Requ
 }
 
 func (s *server) handleReset(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleReset()")
 	err := s.Stop()
 	if err != nil {
 		aghhttp.Error(r, w, http.StatusInternalServerError, "stopping dhcp: %s", err)
@@ -706,6 +722,7 @@ func (s *server) handleReset(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) handleResetLeases(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: handleResetLeases()")
 	err := s.resetLeases()
 	if err != nil {
 		msg := "resetting leases: %s"
@@ -716,6 +733,7 @@ func (s *server) handleResetLeases(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) registerHandlers() {
+	fmt.Println("[->] internal/dhcpd/http_unix.go: registerHandlers()")
 	if s.conf.HTTPRegister == nil {
 		return
 	}

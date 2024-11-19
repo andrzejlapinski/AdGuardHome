@@ -11,6 +11,7 @@ import (
 // wrapErrs is a helper to wrap the errors from two independent underlying
 // connections.
 func wrapErrs(action string, udpConnErr, rawConnErr error) (err error) {
+	fmt.Println("[->] internal/dhcpd/conn_unix.go: wrapErrs()")
 	switch {
 	case udpConnErr != nil && rawConnErr != nil:
 		return fmt.Errorf("%s both connections: %s", action, errors.Join(udpConnErr, rawConnErr))

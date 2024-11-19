@@ -3,11 +3,13 @@
 package dhcpd
 
 import (
+	"fmt"
 	"net"
 )
 
 // broadcast sends resp to the broadcast address specific for network interface.
 func (c *dhcpConn) broadcast(respData []byte, peer *net.UDPAddr) (n int, err error) {
+	fmt.Println("[->]internal/dhcpd/broadcast_others.go: broadcast()")
 	// This write to 0xffffffff reverts some behavior changes made in
 	// https://github.com/andrzejlapinski/AdGuardHome/issues/3289.  The DHCP
 	// server should broadcast the message to 0xffffffff but it's

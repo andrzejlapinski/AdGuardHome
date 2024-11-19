@@ -105,6 +105,7 @@ var _ Interface = (*server)(nil)
 // Create initializes and returns the DHCP server handling both address
 // families.  It also registers the corresponding HTTP API endpoints.
 func Create(conf *ServerConfig) (s *server, err error) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: Create()")
 	s = &server{
 		conf: &ServerConfig{
 			ConfigModified: conf.ConfigModified,
@@ -158,6 +159,7 @@ func Create(conf *ServerConfig) (s *server, err error) {
 // configuration conf.  It returns the status of both the DHCPv4 and the DHCPv6
 // servers, which is always false for corresponding server on any error.
 func (s *server) setServers(conf *ServerConfig) (v4Enabled, v6Enabled bool, err error) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: setServers()")
 	v4conf := conf.Conf4
 	v4conf.InterfaceName = s.conf.InterfaceName
 	v4conf.notify = s.onNotify
@@ -187,11 +189,13 @@ func (s *server) setServers(conf *ServerConfig) (v4Enabled, v6Enabled bool, err 
 
 // Enabled returns true when the server is enabled.
 func (s *server) Enabled() (ok bool) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: Enabled()")
 	return s.conf.Enabled
 }
 
 // resetLeases resets all leases in the lease database.
 func (s *server) resetLeases() (err error) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: resetLeases()")
 	err = s.srv4.ResetLeases(nil)
 	if err != nil {
 		return err
@@ -209,6 +213,7 @@ func (s *server) resetLeases() (err error) {
 
 // server calls this function after DB is updated
 func (s *server) onNotify(flags uint32) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: onNotify()")
 	if flags == LeaseChangedDBStore {
 		err := s.dbStore()
 		if err != nil {
@@ -222,6 +227,7 @@ func (s *server) onNotify(flags uint32) {
 }
 
 func (s *server) notify(flags int) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: notify()")
 	for _, f := range s.onLeaseChanged {
 		f(flags)
 	}
@@ -229,6 +235,7 @@ func (s *server) notify(flags int) {
 
 // WriteDiskConfig - write configuration
 func (s *server) WriteDiskConfig(c *ServerConfig) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: WriteDiskConfig()")
 	c.Enabled = s.conf.Enabled
 	c.InterfaceName = s.conf.InterfaceName
 	c.LocalDomainName = s.conf.LocalDomainName
@@ -239,6 +246,7 @@ func (s *server) WriteDiskConfig(c *ServerConfig) {
 
 // Start will listen on port 67 and serve DHCP requests.
 func (s *server) Start() (err error) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: Start()")
 	err = s.srv4.Start()
 	if err != nil {
 		return err
@@ -254,6 +262,7 @@ func (s *server) Start() (err error) {
 
 // Stop closes the listening UDP socket
 func (s *server) Stop() (err error) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: Stop()")
 	err = s.srv4.Stop()
 	if err != nil {
 		return err
@@ -269,12 +278,14 @@ func (s *server) Stop() (err error) {
 
 // Leases returns the list of active DHCP leases.
 func (s *server) Leases() (leases []*dhcpsvc.Lease) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: Leases()")
 	return append(s.srv4.GetLeases(LeasesAll), s.srv6.GetLeases(LeasesAll)...)
 }
 
 // MACByIP returns a MAC address by the IP address of its lease, if there is
 // one.
 func (s *server) MACByIP(ip netip.Addr) (mac net.HardwareAddr) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: MACByIP()")
 	if ip.Is4() {
 		return s.srv4.FindMACbyIP(ip)
 	}
@@ -286,6 +297,7 @@ func (s *server) MACByIP(ip netip.Addr) (mac net.HardwareAddr) {
 //
 // TODO(e.burkov):  Implement this method for DHCPv6.
 func (s *server) HostByIP(ip netip.Addr) (host string) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: HostByIP()")
 	if ip.Is4() {
 		return s.srv4.HostByIP(ip)
 	}
@@ -297,10 +309,12 @@ func (s *server) HostByIP(ip netip.Addr) (host string) {
 //
 // TODO(e.burkov):  Implement this method for DHCPv6.
 func (s *server) IPByHost(host string) (ip netip.Addr) {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: IPByHost()")
 	return s.srv4.IPByHost(host)
 }
 
 // AddStaticLease - add static v4 lease
 func (s *server) AddStaticLease(l *dhcpsvc.Lease) error {
+	fmt.Println("[->] internal/dhcpd/dhcpd.go: AddStaticLease()")
 	return s.srv4.AddStaticLease(l)
 }

@@ -44,11 +44,13 @@ const ErrNoStaticIPInfo errors.Error = "no information about static ip"
 // If it can't give a definitive answer, it returns false and an error for which
 // errors.Is(err, ErrNoStaticIPInfo) is true.
 func IfaceHasStaticIP(ifaceName string) (has bool, err error) {
+	fmt.Println("[->] internal/aghnet/net.go: IfaceHasStaticIP checks if interface is configured to have static IP address.")
 	return ifaceHasStaticIP(ifaceName)
 }
 
 // IfaceSetStaticIP sets static IP address for network interface.
 func IfaceSetStaticIP(ifaceName string) (err error) {
+	fmt.Println("[->] internal/aghnet/net.go: IfaceSetStaticIP sets static IP address for network interface.")
 	return ifaceSetStaticIP(ifaceName)
 }
 
@@ -57,6 +59,7 @@ func IfaceSetStaticIP(ifaceName string) (err error) {
 // TODO(e.burkov):  Investigate if the gateway address may be fetched in another
 // way since not every machine has the software installed.
 func GatewayIP(ifaceName string) (ip netip.Addr) {
+	fmt.Println("[->] internal/aghnet/net.go: GatewayIP returns IP address of interface's gateway.")
 	code, out, err := aghosRunCommand("ip", "route", "show", "dev", ifaceName)
 	if err != nil {
 		log.Debug("%s", err)
@@ -169,6 +172,7 @@ func NetInterfaceFrom(iface *net.Interface) (niface *NetInterface, err error) {
 // TODO(e.burkov):  Can't properly test the function since it's nontrivial to
 // substitute net.Interface.Addrs and the net.InterfaceAddrs can't be used.
 func GetValidNetInterfacesForWeb() (nifaces []*NetInterface, err error) {
+	fmt.Println("[->] internal/aghnet/net.go: GetValidNetInterfacesForWeb returns interfaces that are eligible for DNS and WEB only we do not return link-local addresses here.")
 	ifaces, err := net.Interfaces()
 	if err != nil {
 		return nil, fmt.Errorf("getting interfaces: %w", err)
@@ -218,6 +222,7 @@ func InterfaceByIP(ip netip.Addr) (ifaceName string) {
 //
 // TODO(e.burkov):  See TODO on GetValidNetInterfacesForWeb.
 func GetSubnet(ifaceName string) (p netip.Prefix) {
+	fmt.Println("[->] internal/aghnet/net.go: GetSubnet returns the subnet corresponding to the interface of zero prefix if the search fails.")
 	netIfaces, err := GetValidNetInterfacesForWeb()
 	if err != nil {
 		log.Error("Could not get network interfaces info: %v", err)
@@ -356,6 +361,7 @@ func ParseBootstraps(
 
 // BroadcastFromPref calculates the broadcast IP address for p.
 func BroadcastFromPref(p netip.Prefix) (bc netip.Addr) {
+	fmt.Println("[->] internal/aghnet/net.go: BroadcastFromPref calculates the broadcast IP address for p.")
 	bc = p.Addr().Unmap()
 	if !bc.IsValid() {
 		return netip.Addr{}

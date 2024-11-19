@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/log"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghos"
 )
 
 // flushLogBuffer flushes the current buffer to file and resets the current

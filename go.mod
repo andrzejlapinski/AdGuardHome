@@ -1,4 +1,4 @@
-module github.com/AdguardTeam/AdGuardHome
+module github.com/andrzejlapinski/AdGuardHome
 
 go 1.23.3
 
@@ -18,13 +18,11 @@ require (
 	github.com/google/renameio/v2 v2.0.0
 	github.com/google/uuid v1.6.0
 	github.com/insomniacslk/dhcp v0.0.0-20240829085014-a3a4c1f04475
-	github.com/josharian/native v1.1.1-0.20230202152459-5c7d0dd6ab86
+	github.com/josharian/native v1.1.0
 	github.com/kardianos/service v1.2.2
 	github.com/mdlayher/ethernet v0.0.0-20220221185849-529eae5b6118
 	github.com/mdlayher/netlink v1.7.2
 	github.com/mdlayher/packet v1.1.2
-	// TODO(a.garipov): This package is deprecated; find a new one or use our
-	// own code for that.  Perhaps, use gopacket.
 	github.com/mdlayher/raw v0.1.0
 	github.com/miekg/dns v1.1.62
 	github.com/quic-go/quic-go v0.48.1
@@ -32,8 +30,8 @@ require (
 	github.com/ti-mo/netfilter v0.5.2
 	go.etcd.io/bbolt v1.3.11
 	golang.org/x/crypto v0.29.0
-	golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c
-	golang.org/x/net v0.30.0
+	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f
+	golang.org/x/net v0.31.0
 	golang.org/x/sys v0.27.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gopkg.in/yaml.v3 v3.0.1
@@ -46,20 +44,20 @@ require (
 	github.com/ameshkov/dnsstamps v1.0.3 // indirect
 	github.com/beefsack/go-rate v0.0.0-20220214233405-116f4ca011a0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
-	github.com/google/pprof v0.0.0-20241101162523-b92577c0c142 // indirect
+	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
+	github.com/google/pprof v0.0.0-20240130152714-0ed6a68c8d9e // indirect
 	github.com/mdlayher/socket v0.5.1 // indirect
-	github.com/onsi/ginkgo/v2 v2.21.0 // indirect
+	github.com/onsi/ginkgo/v2 v2.15.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
-	github.com/pierrec/lz4/v4 v4.1.21 // indirect
+	github.com/pierrec/lz4/v4 v4.1.14 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/quic-go/qpack v0.5.1 // indirect
-	github.com/u-root/uio v0.0.0-20240224005618-d2acac8f3701 // indirect
-	go.uber.org/mock v0.5.0 // indirect
+	github.com/u-root/uio v0.0.0-20230220225925-ffce2a382923 // indirect
+	go.uber.org/mock v0.4.0 // indirect
 	golang.org/x/mod v0.22.0 // indirect
 	golang.org/x/sync v0.9.0 // indirect
 	golang.org/x/text v0.20.0 // indirect
-	golang.org/x/tools v0.26.0 // indirect
-	gonum.org/v1/gonum v0.15.1 // indirect
+	golang.org/x/tools v0.27.0 // indirect
+	gonum.org/v1/gonum v0.14.0 // indirect
 )

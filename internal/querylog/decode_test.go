@@ -9,11 +9,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtest"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
 	"github.com/AdguardTeam/golibs/log"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/urlfilter/rules"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghtest"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering"
 	"github.com/miekg/dns"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

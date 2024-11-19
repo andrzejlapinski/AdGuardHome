@@ -8,8 +8,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
 	"github.com/AdguardTeam/golibs/errors"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghos"
 )
 
 // pendingFile is a wrapper around [*os.File] calling [os.Rename] in its Close

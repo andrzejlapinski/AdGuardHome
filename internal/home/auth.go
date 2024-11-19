@@ -9,10 +9,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/log"
 	"github.com/AdguardTeam/golibs/netutil"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghos"
 	"go.etcd.io/bbolt"
 	"golang.org/x/crypto/bcrypt"
 )

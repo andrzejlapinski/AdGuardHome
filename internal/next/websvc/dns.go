@@ -7,8 +7,8 @@ import (
 	"net/netip"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/next/dnssvc"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghhttp"
+	"github.com/andrzejlapinski/AdGuardHome/internal/next/dnssvc"
 )
 
 // ReqPatchSettingsDNS describes the request to the PATCH /api/v1/settings/dns

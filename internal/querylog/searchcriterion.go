@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
 	"github.com/AdguardTeam/golibs/stringutil"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering"
 )
 
 type criterionType int

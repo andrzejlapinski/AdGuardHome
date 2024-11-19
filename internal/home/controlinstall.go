@@ -14,12 +14,12 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/version"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/log"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghalg"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghhttp"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghnet"
+	"github.com/andrzejlapinski/AdGuardHome/internal/version"
 	"github.com/quic-go/quic-go/http3"
 )
 

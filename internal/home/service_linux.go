@@ -3,7 +3,7 @@
 package home
 
 import (
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghos"
 	"github.com/kardianos/service"
 )
 

@@ -17,12 +17,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/querylog"
-	"github.com/AdguardTeam/AdGuardHome/internal/rdns"
-	"github.com/AdguardTeam/AdGuardHome/internal/stats"
 	"github.com/AdguardTeam/dnsproxy/proxy"
 	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/cache"
@@ -32,6 +26,12 @@ import (
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/netutil/sysresolv"
 	"github.com/AdguardTeam/golibs/stringutil"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghnet"
+	"github.com/andrzejlapinski/AdGuardHome/internal/client"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering"
+	"github.com/andrzejlapinski/AdGuardHome/internal/querylog"
+	"github.com/andrzejlapinski/AdGuardHome/internal/rdns"
+	"github.com/andrzejlapinski/AdGuardHome/internal/stats"
 	"github.com/miekg/dns"
 )
 

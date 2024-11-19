@@ -12,11 +12,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
 	"github.com/AdguardTeam/golibs/log"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghalg"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghhttp"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghnet"
 	"golang.org/x/net/idna"
 )
 

@@ -7,12 +7,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
 	"github.com/AdguardTeam/golibs/container"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/log"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghnet"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering"
 	"github.com/miekg/dns"
 )
 

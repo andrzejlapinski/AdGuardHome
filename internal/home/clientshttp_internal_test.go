@@ -13,10 +13,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/schedule"
 	"github.com/AdguardTeam/golibs/testutil"
+	"github.com/andrzejlapinski/AdGuardHome/internal/client"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering"
+	"github.com/andrzejlapinski/AdGuardHome/internal/schedule"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -6,10 +6,10 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtest"
-	"github.com/AdguardTeam/AdGuardHome/internal/updater"
-	"github.com/AdguardTeam/AdGuardHome/internal/version"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghalg"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghtest"
+	"github.com/andrzejlapinski/AdGuardHome/internal/updater"
+	"github.com/andrzejlapinski/AdGuardHome/internal/version"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -18,7 +18,7 @@ func TestUpdater_VersionInfo(t *testing.T) {
 	const jsonData = `{
   "version": "v0.103.0-beta.2",
   "announcement": "AdGuard Home v0.103.0-beta.2 is now available!",
-  "announcement_url": "https://github.com/AdguardTeam/AdGuardHome/internal/releases",
+  "announcement_url": "https://github.com/andrzejlapinski/AdGuardHome/internal/releases",
   "selfupdate_min_version": "v0.0",
   "download_windows_amd64": "https://static.adtidy.org/adguardhome/beta/AdGuardHome_windows_amd64.zip",
   "download_windows_386": "https://static.adtidy.org/adguardhome/beta/AdGuardHome_windows_386.zip",
@@ -69,7 +69,7 @@ func TestUpdater_VersionInfo(t *testing.T) {
 	assert.Equal(t, counter, 1)
 	assert.Equal(t, "v0.103.0-beta.2", info.NewVersion)
 	assert.Equal(t, "AdGuard Home v0.103.0-beta.2 is now available!", info.Announcement)
-	assert.Equal(t, "https://github.com/AdguardTeam/AdGuardHome/internal/releases", info.AnnouncementURL)
+	assert.Equal(t, "https://github.com/andrzejlapinski/AdGuardHome/internal/releases", info.AnnouncementURL)
 	assert.Equal(t, aghalg.NBTrue, info.CanAutoUpdate)
 
 	t.Run("cache_check", func(t *testing.T) {
@@ -99,7 +99,7 @@ func TestUpdater_VersionInfo_others(t *testing.T) {
 	const jsonData = `{
   "version": "v0.103.0-beta.2",
   "announcement": "AdGuard Home v0.103.0-beta.2 is now available!",
-  "announcement_url": "https://github.com/AdguardTeam/AdGuardHome/internal/releases",
+  "announcement_url": "https://github.com/andrzejlapinski/AdGuardHome/internal/releases",
   "selfupdate_min_version": "v0.0",
   "download_linux_armv7": "https://static.adtidy.org/adguardhome/beta/AdGuardHome_linux_armv7.tar.gz",
   "download_linux_mips_softfloat": "https://static.adtidy.org/adguardhome/beta/AdGuardHome_linux_mips_softfloat.tar.gz"
@@ -142,7 +142,7 @@ func TestUpdater_VersionInfo_others(t *testing.T) {
 
 		assert.Equal(t, "v0.103.0-beta.2", info.NewVersion)
 		assert.Equal(t, "AdGuard Home v0.103.0-beta.2 is now available!", info.Announcement)
-		assert.Equal(t, "https://github.com/AdguardTeam/AdGuardHome/internal/releases", info.AnnouncementURL)
+		assert.Equal(t, "https://github.com/andrzejlapinski/AdGuardHome/internal/releases", info.AnnouncementURL)
 		assert.Equal(t, aghalg.NBTrue, info.CanAutoUpdate)
 	}
 }

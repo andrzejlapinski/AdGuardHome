@@ -18,9 +18,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/rulelist"
 	"github.com/AdguardTeam/golibs/container"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/hostsfile"
@@ -30,6 +27,9 @@ import (
 	"github.com/AdguardTeam/urlfilter"
 	"github.com/AdguardTeam/urlfilter/filterlist"
 	"github.com/AdguardTeam/urlfilter/rules"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghhttp"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghos"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering/rulelist"
 	"github.com/miekg/dns"
 )
 

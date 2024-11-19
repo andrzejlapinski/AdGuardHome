@@ -9,14 +9,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtest"
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
-	"github.com/AdguardTeam/AdGuardHome/internal/whois"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/testutil"
 	"github.com/AdguardTeam/golibs/testutil/fakenet"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghtest"
+	"github.com/andrzejlapinski/AdGuardHome/internal/client"
+	"github.com/andrzejlapinski/AdGuardHome/internal/whois"
 	"github.com/stretchr/testify/assert"
 )
 

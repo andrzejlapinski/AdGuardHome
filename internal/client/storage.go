@@ -10,13 +10,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/arpdb"
-	"github.com/AdguardTeam/AdGuardHome/internal/dhcpsvc"
-	"github.com/AdguardTeam/AdGuardHome/internal/whois"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/hostsfile"
 	"github.com/AdguardTeam/golibs/log"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
+	"github.com/andrzejlapinski/AdGuardHome/internal/arpdb"
+	"github.com/andrzejlapinski/AdGuardHome/internal/dhcpsvc"
+	"github.com/andrzejlapinski/AdGuardHome/internal/whois"
 )
 
 // allowedTags is the list of available client tags.

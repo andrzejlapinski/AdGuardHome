@@ -9,10 +9,10 @@ import (
 	"slices"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/ioutil"
 	"github.com/AdguardTeam/golibs/log"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghalg"
 )
 
 // TODO(a.garipov): Make configurable.

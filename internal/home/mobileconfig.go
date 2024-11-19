@@ -8,11 +8,11 @@ import (
 	"net/url"
 	"path"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/dnsforward"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/httphdr"
 	"github.com/AdguardTeam/golibs/log"
 	"github.com/AdguardTeam/golibs/netutil/urlutil"
+	"github.com/andrzejlapinski/AdGuardHome/internal/dnsforward"
 	"github.com/google/uuid"
 	"howett.net/plist"
 )

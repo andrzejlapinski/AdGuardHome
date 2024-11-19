@@ -4,9 +4,9 @@ import (
 	"net"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/log"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering"
 	"github.com/miekg/dns"
 )
 

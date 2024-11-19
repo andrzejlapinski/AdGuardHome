@@ -7,11 +7,11 @@ import (
 	"slices"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/rulelist"
-	"github.com/AdguardTeam/AdGuardHome/internal/schedule"
 	"github.com/AdguardTeam/golibs/log"
 	"github.com/AdguardTeam/urlfilter/rules"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghhttp"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering/rulelist"
+	"github.com/andrzejlapinski/AdGuardHome/internal/schedule"
 )
 
 // serviceRules maps a service ID to its filtering rules.

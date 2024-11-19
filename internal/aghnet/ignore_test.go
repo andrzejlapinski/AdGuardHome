@@ -3,7 +3,7 @@ package aghnet_test
 import (
 	"testing"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
+	"github.com/andrzejlapinski/AdGuardHome/internal/aghnet"
 	"github.com/stretchr/testify/require"
 )
 

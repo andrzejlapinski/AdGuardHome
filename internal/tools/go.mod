@@ -1,4 +1,4 @@
-module github.com/AdguardTeam/AdGuardHome/internal/tools
+module github.com/andrzejlapinski/AdGuardHome/internal/tools
 
 go 1.23.3
 

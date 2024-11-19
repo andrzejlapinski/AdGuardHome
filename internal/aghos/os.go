@@ -34,7 +34,7 @@ func Unsupported(op string) (err error) {
 
 // SetRlimit sets user-specified limit of how many fd's we can use.
 //
-// See https://github.com/AdguardTeam/AdGuardHome/internal/issues/659.
+// See https://github.com/andrzejlapinski/AdGuardHome/internal/issues/659.
 func SetRlimit(val uint64) (err error) {
 	return setRlimit(val)
 }

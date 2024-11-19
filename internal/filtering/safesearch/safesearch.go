@@ -13,13 +13,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/rulelist"
 	"github.com/AdguardTeam/golibs/cache"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/urlfilter"
 	"github.com/AdguardTeam/urlfilter/filterlist"
 	"github.com/AdguardTeam/urlfilter/rules"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering"
+	"github.com/andrzejlapinski/AdGuardHome/internal/filtering/rulelist"
 	"github.com/c2h5oh/datasize"
 	"github.com/miekg/dns"
 )

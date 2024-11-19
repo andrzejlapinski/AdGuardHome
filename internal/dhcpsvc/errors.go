@@ -17,5 +17,6 @@ const (
 // newMustErr returns an error that indicates that valName must be as must
 // describes.
 func newMustErr(valName, must string, val fmt.Stringer) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/errors.go: newMustErr()")
 	return fmt.Errorf("%s %s must %s", valName, val, must)
 }

@@ -28,6 +28,7 @@ const maxRangeLen = math.MaxUint32
 // newIPRange creates a new IP address range.  start must be less than end.  The
 // resulting range must not be greater than maxRangeLen.
 func newIPRange(start, end netip.Addr) (r ipRange, err error) {
+	fmt.Println("[->] internal/dhcpsvc/iprange.go: newIPRange()")
 	defer func() { err = errors.Annotate(err, "invalid ip range: %w") }()
 
 	switch false {
@@ -54,6 +55,7 @@ func newIPRange(start, end netip.Addr) (r ipRange, err error) {
 
 // contains returns true if r contains ip.
 func (r ipRange) contains(ip netip.Addr) (ok bool) {
+	fmt.Println("[->] internal/dhcpsvc/iprange.go: contains()")
 	// Assume that the end was checked to be within the same address family as
 	// the start during construction.
 	return r.start.Is4() == ip.Is4() && !ip.Less(r.start) && !r.end.Less(ip)
@@ -68,6 +70,7 @@ type ipPredicate func(ip netip.Addr) (ok bool)
 //
 // TODO(e.burkov):  Use.
 func (r ipRange) find(p ipPredicate) (ip netip.Addr) {
+	fmt.Println("[->] internal/dhcpsvc/iprange.go: find()")
 	for ip = r.start; !r.end.Less(ip); ip = ip.Next() {
 		if p(ip) {
 			return ip
@@ -80,6 +83,7 @@ func (r ipRange) find(p ipPredicate) (ip netip.Addr) {
 // offset returns the offset of ip from the beginning of r.  It returns 0 and
 // false if ip is not in r.
 func (r ipRange) offset(ip netip.Addr) (offset uint64, ok bool) {
+	fmt.Println("[->] internal/dhcpsvc/iprange.go: offset()")
 	if !r.contains(ip) {
 		return 0, false
 	}
@@ -94,5 +98,6 @@ func (r ipRange) offset(ip netip.Addr) (offset uint64, ok bool) {
 
 // String implements the fmt.Stringer interface for *ipRange.
 func (r ipRange) String() (s string) {
+	fmt.Println("[->] internal/dhcpsvc/iprange.go: String()")
 	return fmt.Sprintf("%s-%s", r.start, r.end)
 }

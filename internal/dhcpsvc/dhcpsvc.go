@@ -5,6 +5,7 @@ package dhcpsvc
 
 import (
 	"context"
+	"fmt"
 	"net"
 	"net/netip"
 
@@ -82,40 +83,76 @@ type Empty struct{}
 var _ agh.ServiceWithConfig[*Config] = Empty{}
 
 // Start implements the [Service] interface for Empty.
-func (Empty) Start(_ context.Context) (err error) { return nil }
+func (Empty) Start(_ context.Context) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: Start()")
+	return nil
+}
 
 // Shutdown implements the [Service] interface for Empty.
-func (Empty) Shutdown(_ context.Context) (err error) { return nil }
+func (Empty) Shutdown(_ context.Context) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: Shutdown()")
+	return nil
+}
 
 // Config implements the [ServiceWithConfig] interface for Empty.
-func (Empty) Config() (conf *Config) { return nil }
+func (Empty) Config() (conf *Config) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: Config()")
+	return nil
+}
 
 // type check
 var _ Interface = Empty{}
 
 // Enabled implements the [Interface] interface for Empty.
-func (Empty) Enabled() (ok bool) { return false }
+func (Empty) Enabled() (ok bool) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: Enabled()")
+	return false
+}
 
 // HostByIP implements the [Interface] interface for Empty.
-func (Empty) HostByIP(_ netip.Addr) (host string) { return "" }
+func (Empty) HostByIP(_ netip.Addr) (host string) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: HostByIP()")
+	return ""
+}
 
 // MACByIP implements the [Interface] interface for Empty.
-func (Empty) MACByIP(_ netip.Addr) (mac net.HardwareAddr) { return nil }
+func (Empty) MACByIP(_ netip.Addr) (mac net.HardwareAddr) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: MACByIP()")
+	return nil
+}
 
 // IPByHost implements the [Interface] interface for Empty.
-func (Empty) IPByHost(_ string) (ip netip.Addr) { return netip.Addr{} }
+func (Empty) IPByHost(_ string) (ip netip.Addr) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: IPByHost()")
+	return netip.Addr{}
+}
 
 // Leases implements the [Interface] interface for Empty.
-func (Empty) Leases() (leases []*Lease) { return nil }
+func (Empty) Leases() (leases []*Lease) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: Leases()")
+	return nil
+}
 
 // AddLease implements the [Interface] interface for Empty.
-func (Empty) AddLease(_ context.Context, _ *Lease) (err error) { return nil }
+func (Empty) AddLease(_ context.Context, _ *Lease) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: AddLease()")
+	return nil
+}
 
 // UpdateStaticLease implements the [Interface] interface for Empty.
-func (Empty) UpdateStaticLease(_ context.Context, _ *Lease) (err error) { return nil }
+func (Empty) UpdateStaticLease(_ context.Context, _ *Lease) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: UpdateStaticLease()")
+	return nil
+}
 
 // RemoveLease implements the [Interface] interface for Empty.
-func (Empty) RemoveLease(_ context.Context, _ *Lease) (err error) { return nil }
+func (Empty) RemoveLease(_ context.Context, _ *Lease) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: RemoveLease()")
+	return nil
+}
 
 // Reset implements the [Interface] interface for Empty.
-func (Empty) Reset(_ context.Context) (err error) { return nil }
+func (Empty) Reset(_ context.Context) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/dhcpsvc.go: Reset()")
+	return nil
+}

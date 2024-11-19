@@ -56,6 +56,7 @@ type DHCPServer struct {
 //
 // TODO(e.burkov):  Use.
 func New(ctx context.Context, conf *Config) (srv *DHCPServer, err error) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: New()")
 	l := conf.Logger
 	if !conf.Enabled {
 		l.DebugContext(ctx, "disabled")
@@ -96,11 +97,8 @@ func New(ctx context.Context, conf *Config) (srv *DHCPServer, err error) {
 
 // newInterfaces creates interfaces for the given map of interface names to
 // their configurations.
-func newInterfaces(
-	ctx context.Context,
-	l *slog.Logger,
-	ifaces map[string]*InterfaceConfig,
-) (v4 dhcpInterfacesV4, v6 dhcpInterfacesV6, err error) {
+func newInterfaces(ctx context.Context, l *slog.Logger, ifaces map[string]*InterfaceConfig) (v4 dhcpInterfacesV4, v6 dhcpInterfacesV6, err error) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: newInterfaces()")
 	defer func() { err = errors.Annotate(err, "creating interfaces: %w") }()
 
 	// TODO(e.burkov):  Add validations scoped to the network interfaces set.
@@ -138,11 +136,13 @@ func newInterfaces(
 
 // Enabled implements the [Interface] interface for *DHCPServer.
 func (srv *DHCPServer) Enabled() (ok bool) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: Enabled()")
 	return srv.enabled.Load()
 }
 
 // Leases implements the [Interface] interface for *DHCPServer.
 func (srv *DHCPServer) Leases() (leases []*Lease) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: Leases()")
 	srv.leasesMu.RLock()
 	defer srv.leasesMu.RUnlock()
 
@@ -157,6 +157,7 @@ func (srv *DHCPServer) Leases() (leases []*Lease) {
 
 // HostByIP implements the [Interface] interface for *DHCPServer.
 func (srv *DHCPServer) HostByIP(ip netip.Addr) (host string) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: HostByIP()")
 	srv.leasesMu.RLock()
 	defer srv.leasesMu.RUnlock()
 
@@ -169,6 +170,7 @@ func (srv *DHCPServer) HostByIP(ip netip.Addr) (host string) {
 
 // MACByIP implements the [Interface] interface for *DHCPServer.
 func (srv *DHCPServer) MACByIP(ip netip.Addr) (mac net.HardwareAddr) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: MACByIP()")
 	srv.leasesMu.RLock()
 	defer srv.leasesMu.RUnlock()
 
@@ -181,6 +183,7 @@ func (srv *DHCPServer) MACByIP(ip netip.Addr) (mac net.HardwareAddr) {
 
 // IPByHost implements the [Interface] interface for *DHCPServer.
 func (srv *DHCPServer) IPByHost(host string) (ip netip.Addr) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: IPByHost()")
 	srv.leasesMu.RLock()
 	defer srv.leasesMu.RUnlock()
 
@@ -193,6 +196,7 @@ func (srv *DHCPServer) IPByHost(host string) (ip netip.Addr) {
 
 // Reset implements the [Interface] interface for *DHCPServer.
 func (srv *DHCPServer) Reset(ctx context.Context) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: Reset()")
 	defer func() { err = errors.Annotate(err, "resetting leases: %w") }()
 
 	srv.leasesMu.Lock()
@@ -213,6 +217,7 @@ func (srv *DHCPServer) Reset(ctx context.Context) (err error) {
 // resetLeases resets the leases for all network interfaces of the server.  It
 // expects the DHCPServer.leasesMu to be locked.
 func (srv *DHCPServer) resetLeases() {
+	fmt.Println("[->] internal/dhcpsvc/server.go: resetLeases()")
 	for _, iface := range srv.interfaces4 {
 		iface.common.reset()
 	}
@@ -224,6 +229,7 @@ func (srv *DHCPServer) resetLeases() {
 
 // AddLease implements the [Interface] interface for *DHCPServer.
 func (srv *DHCPServer) AddLease(ctx context.Context, l *Lease) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: AddLease()")
 	defer func() { err = errors.Annotate(err, "adding lease: %w") }()
 
 	addr := l.IP
@@ -263,6 +269,7 @@ func (srv *DHCPServer) AddLease(ctx context.Context, l *Lease) (err error) {
 //
 // TODO(e.burkov):  Support moving leases between interfaces.
 func (srv *DHCPServer) UpdateStaticLease(ctx context.Context, l *Lease) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: UpdateStaticLease()")
 	defer func() { err = errors.Annotate(err, "updating static lease: %w") }()
 
 	addr := l.IP
@@ -300,6 +307,7 @@ func (srv *DHCPServer) UpdateStaticLease(ctx context.Context, l *Lease) (err err
 
 // RemoveLease implements the [Interface] interface for *DHCPServer.
 func (srv *DHCPServer) RemoveLease(ctx context.Context, l *Lease) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: RemoveLease()")
 	defer func() { err = errors.Annotate(err, "removing lease: %w") }()
 
 	addr := l.IP
@@ -338,6 +346,7 @@ func (srv *DHCPServer) RemoveLease(ctx context.Context, l *Lease) (err error) {
 // ifaceForAddr returns the handled network interface for the given IP address,
 // or an error if no such interface exists.
 func (srv *DHCPServer) ifaceForAddr(addr netip.Addr) (iface *netInterface, err error) {
+	fmt.Println("[->] internal/dhcpsvc/server.go: ifaceForAddr()")
 	var ok bool
 	if addr.Is4() {
 		iface, ok = srv.interfaces4.find(addr)

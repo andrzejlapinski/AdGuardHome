@@ -48,6 +48,7 @@ type InterfaceConfig struct {
 //
 // TODO(e.burkov):  Unexport and rewrite the test.
 func (conf *Config) Validate() (err error) {
+	fmt.Println("[->] internal/dhcpsvc/config.go: Validate()")
 	switch {
 	case conf == nil:
 		return errNilConfig
@@ -92,6 +93,7 @@ func (conf *Config) Validate() (err error) {
 
 // validate returns an error in ic, if any.
 func (ic *InterfaceConfig) validate() (err error) {
+	fmt.Println("[->] internal/dhcpsvc/config.go: validate()")
 	if ic == nil {
 		return errNilConfig
 	}

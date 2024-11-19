@@ -46,6 +46,7 @@ type IPv4Config struct {
 
 // validate returns an error in conf if any.
 func (c *IPv4Config) validate() (err error) {
+	fmt.Println("[->] internal/dhcpsvc/v4.go: validate()")
 	if c == nil {
 		return errNilConfig
 	} else if !c.Enabled {
@@ -110,12 +111,8 @@ type dhcpInterfaceV4 struct {
 // newDHCPInterfaceV4 creates a new DHCP interface for IPv4 address family with
 // the given configuration.  It returns an error if the given configuration
 // can't be used.
-func newDHCPInterfaceV4(
-	ctx context.Context,
-	l *slog.Logger,
-	name string,
-	conf *IPv4Config,
-) (i *dhcpInterfaceV4, err error) {
+func newDHCPInterfaceV4(ctx context.Context, l *slog.Logger, name string, conf *IPv4Config) (i *dhcpInterfaceV4, err error) {
+	fmt.Println("[->] internal/dhcpsvc/v4.go: newDHCPInterfaceV4()")
 	l = l.With(
 		keyInterface, name,
 		keyFamily, netutil.AddrFamilyIPv4,
@@ -161,6 +158,7 @@ type dhcpInterfacesV4 []*dhcpInterfaceV4
 // find returns the first network interface within ifaces containing ip.  It
 // returns false if there is no such interface.
 func (ifaces dhcpInterfacesV4) find(ip netip.Addr) (iface4 *netInterface, ok bool) {
+	fmt.Println("[->] internal/dhcpsvc/v4.go: find()")
 	i := slices.IndexFunc(ifaces, func(iface *dhcpInterfaceV4) (contains bool) {
 		return iface.subnet.Contains(ip)
 	})
@@ -177,6 +175,7 @@ func (ifaces dhcpInterfacesV4) find(ip netip.Addr) (iface4 *netInterface, ok boo
 //
 // TODO(e.burkov):  DRY with the IPv6 version.
 func (c *IPv4Config) options(ctx context.Context, l *slog.Logger) (imp, exp layers.DHCPOptions) {
+	fmt.Println("[->] internal/dhcpsvc/v4.go: options()")
 	// Set default values of host configuration parameters listed in Appendix A
 	// of RFC-2131.
 	imp = layers.DHCPOptions{
@@ -359,5 +358,6 @@ func (c *IPv4Config) options(ctx context.Context, l *slog.Logger) (imp, exp laye
 
 // compareV4OptionCodes compares option codes of a and b.
 func compareV4OptionCodes(a, b layers.DHCPOption) (res int) {
+	fmt.Println("[->] internal/dhcpsvc/v4.go: compareV4OptionCodes()")
 	return int(a.Type) - int(b.Type)
 }

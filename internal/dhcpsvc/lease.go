@@ -1,6 +1,7 @@
 package dhcpsvc
 
 import (
+	"fmt"
 	"net"
 	"net/netip"
 	"slices"
@@ -32,6 +33,7 @@ type Lease struct {
 
 // Clone returns a deep copy of l.
 func (l *Lease) Clone() (clone *Lease) {
+	fmt.Println("[->] internal/dhcpsvc/lease.go: Clone()")
 	if l == nil {
 		return nil
 	}

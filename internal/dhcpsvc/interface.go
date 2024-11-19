@@ -16,6 +16,7 @@ type macKey any
 // maps.  mac must be a valid hardware address of length 6, 8, or 20 bytes, see
 // [netutil.ValidateMAC].
 func macToKey(mac net.HardwareAddr) (key macKey) {
+	fmt.Println("[->] internal/dhcpsvc/interface.go: macToKey()")
 	switch len(mac) {
 	case 6:
 		return [6]byte(mac)
@@ -48,6 +49,7 @@ type netInterface struct {
 // newNetInterface creates a new netInterface with the given name, leaseTTL, and
 // logger.
 func newNetInterface(name string, l *slog.Logger, leaseTTL time.Duration) (iface *netInterface) {
+	fmt.Println("[->] internal/dhcpsvc/interface.go: newNetInterface()")
 	return &netInterface{
 		logger:   l,
 		leases:   map[macKey]*Lease{},
@@ -58,12 +60,14 @@ func newNetInterface(name string, l *slog.Logger, leaseTTL time.Duration) (iface
 
 // reset clears all the slices in iface for reuse.
 func (iface *netInterface) reset() {
+	fmt.Println("[->] internal/dhcpsvc/interface.go: reset()")
 	clear(iface.leases)
 }
 
 // addLease inserts the given lease into iface.  It returns an error if the
 // lease can't be inserted.
 func (iface *netInterface) addLease(l *Lease) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/interface.go: addLease()")
 	mk := macToKey(l.HWAddr)
 	_, found := iface.leases[mk]
 	if found {
@@ -78,6 +82,7 @@ func (iface *netInterface) addLease(l *Lease) (err error) {
 // updateLease replaces an existing lease within iface with the given one.  It
 // returns an error if there is no lease with such hardware address.
 func (iface *netInterface) updateLease(l *Lease) (prev *Lease, err error) {
+	fmt.Println("[->] internal/dhcpsvc/interface.go: updateLease()")
 	mk := macToKey(l.HWAddr)
 	prev, found := iface.leases[mk]
 	if !found {
@@ -92,6 +97,7 @@ func (iface *netInterface) updateLease(l *Lease) (prev *Lease, err error) {
 // removeLease removes an existing lease from iface.  It returns an error if
 // there is no lease equal to l.
 func (iface *netInterface) removeLease(l *Lease) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/interface.go: removeLease()")
 	mk := macToKey(l.HWAddr)
 	_, found := iface.leases[mk]
 	if !found {

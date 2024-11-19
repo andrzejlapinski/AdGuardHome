@@ -44,11 +44,13 @@ type dbLease struct {
 // compareNames returns the result of comparing the hostnames of dl and other
 // lexicographically.
 func (dl *dbLease) compareNames(other *dbLease) (res int) {
+	fmt.Println("[->] internal/dhcpsvc/db.go: compareNames()")
 	return strings.Compare(dl.Hostname, other.Hostname)
 }
 
 // toDBLease converts *Lease to *dbLease.
 func toDBLease(l *Lease) (dl *dbLease) {
+	fmt.Println("[->] internal/dhcpsvc/db.go: toDBLease()")
 	var expiryStr string
 	if !l.IsStatic {
 		// The front-end is waiting for RFC 3999 format of the time value.  It
@@ -69,6 +71,7 @@ func toDBLease(l *Lease) (dl *dbLease) {
 
 // toInternal converts dl to *Lease.
 func (dl *dbLease) toInternal() (l *Lease, err error) {
+	fmt.Println("[->] internal/dhcpsvc/db.go: toInternal()")
 	mac, err := net.ParseMAC(dl.HWAddr)
 	if err != nil {
 		return nil, fmt.Errorf("parsing hardware address: %w", err)
@@ -94,6 +97,7 @@ func (dl *dbLease) toInternal() (l *Lease, err error) {
 // dbLoad loads stored leases.  It must only be called before the service has
 // been started.
 func (srv *DHCPServer) dbLoad(ctx context.Context) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/db.go: dbLoad()")
 	defer func() { err = errors.Annotate(err, "loading db: %w") }()
 
 	file, err := os.Open(srv.dbFilePath)
@@ -124,6 +128,7 @@ func (srv *DHCPServer) dbLoad(ctx context.Context) (err error) {
 
 // addDBLeases adds leases to the server.
 func (srv *DHCPServer) addDBLeases(ctx context.Context, leases []*dbLease) {
+	fmt.Println("[->] internal/dhcpsvc/db.go: addDBLeases()")
 	var v4, v6 uint
 	for i, l := range leases {
 		lease, err := l.toInternal()
@@ -161,6 +166,7 @@ func (srv *DHCPServer) addDBLeases(ctx context.Context, leases []*dbLease) {
 // writeDB writes leases to the database file.  It expects the
 // [DHCPServer.leasesMu] to be locked.
 func (srv *DHCPServer) dbStore(ctx context.Context) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/db.go: dbStore()")
 	defer func() { err = errors.Annotate(err, "writing db: %w") }()
 
 	dl := &dataLeases{

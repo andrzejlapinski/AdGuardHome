@@ -41,6 +41,7 @@ type IPv6Config struct {
 
 // validate returns an error in conf if any.
 func (c *IPv6Config) validate() (err error) {
+	fmt.Println("[->] internal/dhcpsvc/v6.go: validate()")
 	if c == nil {
 		return errNilConfig
 	} else if !c.Enabled {
@@ -92,12 +93,8 @@ type dhcpInterfaceV6 struct {
 // the given configuration.
 //
 // TODO(e.burkov):  Validate properly.
-func newDHCPInterfaceV6(
-	ctx context.Context,
-	l *slog.Logger,
-	name string,
-	conf *IPv6Config,
-) (i *dhcpInterfaceV6) {
+func newDHCPInterfaceV6(ctx context.Context, l *slog.Logger, name string, conf *IPv6Config) (i *dhcpInterfaceV6) {
+	fmt.Println("[->] internal/dhcpsvc/v6.go: newDHCPInterfaceV6()")
 	l = l.With(keyInterface, name, keyFamily, netutil.AddrFamilyIPv6)
 	if !conf.Enabled {
 		l.DebugContext(ctx, "disabled")
@@ -122,6 +119,7 @@ type dhcpInterfacesV6 []*dhcpInterfaceV6
 // find returns the first network interface within ifaces containing ip.  It
 // returns false if there is no such interface.
 func (ifaces dhcpInterfacesV6) find(ip netip.Addr) (iface6 *netInterface, ok bool) {
+	fmt.Println("[->] internal/dhcpsvc/v6.go: find()")
 	// prefLen is the length of prefix to match ip against.
 	//
 	// TODO(e.burkov):  DHCPv6 inherits the weird behavior of legacy
@@ -147,6 +145,7 @@ func (ifaces dhcpInterfacesV6) find(ip netip.Addr) (iface6 *netInterface, ok boo
 //
 // TODO(e.burkov):  Add implicit options according to RFC.
 func (c *IPv6Config) options(ctx context.Context, l *slog.Logger) (imp, exp layers.DHCPv6Options) {
+	fmt.Println("[->] internal/dhcpsvc/v6.go: options()")
 	// Set default values of host configuration parameters listed in RFC 8415.
 	imp = layers.DHCPv6Options{}
 	slices.SortFunc(imp, compareV6OptionCodes)
@@ -168,5 +167,6 @@ func (c *IPv6Config) options(ctx context.Context, l *slog.Logger) (imp, exp laye
 
 // compareV6OptionCodes compares option codes of a and b.
 func compareV6OptionCodes(a, b layers.DHCPv6Option) (res int) {
+	fmt.Println("[->] internal/dhcpsvc/v6.go: compareV6OptionCodes()")
 	return int(a.Code) - int(b.Code)
 }

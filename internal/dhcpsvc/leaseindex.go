@@ -21,6 +21,7 @@ type leaseIndex struct {
 
 // newLeaseIndex returns a new index for [Lease]s.
 func newLeaseIndex() *leaseIndex {
+	fmt.Println("[->] internal/dhcpsvc/leaseindex.go: newLeaseIndex()")
 	return &leaseIndex{
 		byAddr: map[netip.Addr]*Lease{},
 		byName: map[string]*Lease{},
@@ -29,6 +30,7 @@ func newLeaseIndex() *leaseIndex {
 
 // leaseByAddr returns a lease by its IP address.
 func (idx *leaseIndex) leaseByAddr(addr netip.Addr) (l *Lease, ok bool) {
+	fmt.Println("[->] internal/dhcpsvc/leaseindex.go: leaseByAddr()")
 	l, ok = idx.byAddr[addr]
 
 	return l, ok
@@ -36,6 +38,7 @@ func (idx *leaseIndex) leaseByAddr(addr netip.Addr) (l *Lease, ok bool) {
 
 // leaseByName returns a lease by its hostname.
 func (idx *leaseIndex) leaseByName(name string) (l *Lease, ok bool) {
+	fmt.Println("[->] internal/dhcpsvc/leaseindex.go: leaseByName()")
 	// TODO(e.burkov):  Probably, use a case-insensitive comparison and store in
 	// slice.  This would require a benchmark.
 	l, ok = idx.byName[strings.ToLower(name)]
@@ -45,6 +48,7 @@ func (idx *leaseIndex) leaseByName(name string) (l *Lease, ok bool) {
 
 // clear removes all leases from idx.
 func (idx *leaseIndex) clear() {
+	fmt.Println("[->] internal/dhcpsvc/leaseindex.go: clear()")
 	clear(idx.byAddr)
 	clear(idx.byName)
 }
@@ -53,6 +57,7 @@ func (idx *leaseIndex) clear() {
 // responsible for l's IP.  It returns an error if l duplicates at least a
 // single value of another lease.
 func (idx *leaseIndex) add(l *Lease, iface *netInterface) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/leaseindex.go: add()")
 	loweredName := strings.ToLower(l.Hostname)
 
 	if _, ok := idx.byAddr[l.IP]; ok {
@@ -76,6 +81,7 @@ func (idx *leaseIndex) add(l *Lease, iface *netInterface) (err error) {
 // contain the same lease or the lease itself.  It returns an error if the lease
 // not found.
 func (idx *leaseIndex) remove(l *Lease, iface *netInterface) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/leaseindex.go: remove()")
 	loweredName := strings.ToLower(l.Hostname)
 
 	if _, ok := idx.byAddr[l.IP]; !ok {
@@ -99,6 +105,7 @@ func (idx *leaseIndex) remove(l *Lease, iface *netInterface) (err error) {
 // responsible for l's IP.  It returns an error if l duplicates at least a
 // single value of another lease, except for the updated lease itself.
 func (idx *leaseIndex) update(l *Lease, iface *netInterface) (err error) {
+	fmt.Println("[->] internal/dhcpsvc/leaseindex.go: update()")
 	loweredName := strings.ToLower(l.Hostname)
 
 	existing, ok := idx.byAddr[l.IP]
@@ -128,6 +135,7 @@ func (idx *leaseIndex) update(l *Lease, iface *netInterface) (err error) {
 // rangeLeases calls f for each lease in idx in an unspecified order until f
 // returns false.
 func (idx *leaseIndex) rangeLeases(f func(l *Lease) (cont bool)) {
+	fmt.Println("[->] internal/dhcpsvc/leaseindex.go: rangeLeases()")
 	for _, l := range idx.byName {
 		if !f(l) {
 			break
@@ -137,5 +145,6 @@ func (idx *leaseIndex) rangeLeases(f func(l *Lease) (cont bool)) {
 
 // len returns the number of leases in idx.
 func (idx *leaseIndex) len() (l uint) {
+	fmt.Println("[->] internal/dhcpsvc/leaseindex.go: len()")
 	return uint(len(idx.byAddr))
 }
